@@ -8,6 +8,6 @@ Package.describe({
 
 Package.onUse(function (api) {
   api.versionsFrom('1.6.1');
-  api.use(['underscore', 'check', 'reactive-var', 'ecmascript', 'ostrio:cstorage@2.2.1'], ['client', 'server']);
+  api.use(['underscore', 'check', 'reactive-var', 'ecmascript', /* 'ostrio:cstorage@2.2.1' */], ['client', 'server']);
   api.mainModule('i18n.js', ['client', 'server']);
 });

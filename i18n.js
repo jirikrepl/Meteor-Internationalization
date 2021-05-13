@@ -2,7 +2,7 @@ import { _ }             from 'meteor/underscore';
 import { Meteor }        from 'meteor/meteor';
 import { ReactiveVar }   from 'meteor/reactive-var';
 import { check, Match }  from 'meteor/check';
-import { ClientStorage } from 'meteor/ostrio:cstorage';
+// import { ClientStorage } from 'meteor/ostrio:cstorage';
 
 /*
  * @private
@@ -117,39 +117,39 @@ export default class I18N {
         /*
          * @summary Settings `i18n` template helper, might be used to build language switcher (see demo folder).
          */
-        Template.registerHelper(this.helperSettingsName, function () {
-          return self.getSetting.apply(self, arguments);
-        });
+        // Template.registerHelper(this.helperSettingsName, function () {
+        //   return self.getSetting.apply(self, arguments);
+        // });
       }
 
-      const savedLocale = ClientStorage.get('___i18n.locale___');
-      if (!this.currentLocale.get()) {
-        if (!savedLocale) {
-          for (let lang of this.strings['__settings.__langConfig__']) {
-            if (lang.code === this.userLocale || lang.isoCode === this.userLocale) {
-              this.currentLocale.set(lang.code);
-              ClientStorage.set('___i18n.locale___', lang.code);
-              break;
-            }
-          }
-        } else {
-          if (!!~this.strings['__settings.__langSet__'].indexOf(savedLocale)) {
-            this.currentLocale.set(savedLocale);
-          } else {
-            this.currentLocale.set(this.defaultLocale);
-            ClientStorage.set('___i18n.locale___', this.defaultLocale);
-          }
-        }
-      }
+      // const savedLocale = ClientStorage.get('___i18n.locale___');
+      // if (!this.currentLocale.get()) {
+      //   if (!savedLocale) {
+      //     for (let lang of this.strings['__settings.__langConfig__']) {
+      //       if (lang.code === this.userLocale || lang.isoCode === this.userLocale) {
+      //         this.currentLocale.set(lang.code);
+      //         ClientStorage.set('___i18n.locale___', lang.code);
+      //         break;
+      //       }
+      //     }
+      //   } else {
+      //     if (!!~this.strings['__settings.__langSet__'].indexOf(savedLocale)) {
+      //       this.currentLocale.set(savedLocale);
+      //     } else {
+      //       this.currentLocale.set(this.defaultLocale);
+      //       ClientStorage.set('___i18n.locale___', this.defaultLocale);
+      //     }
+      //   }
+      // }
     } else {
-      this.defaultLocale = this.settings.defaultLocale;
-      this.currentLocale.set(this.defaultLocale);
+      // this.defaultLocale = this.settings.defaultLocale;
+      // this.currentLocale.set(this.defaultLocale);
     }
 
-    if (!this.currentLocale.get()) {
-      this.currentLocale.set(this.defaultLocale);
-      ClientStorage.set('___i18n.locale___', this.defaultLocale);
-    }
+    // if (!this.currentLocale.get()) {
+    //   this.currentLocale.set(this.defaultLocale);
+    //   ClientStorage.set('___i18n.locale___', this.defaultLocale);
+    // }
   }
 
   /*
@@ -206,29 +206,29 @@ export default class I18N {
    * @param locale       {String} - [Optional] Two-letter locale string
    * @param key          {String} - l10n key like: `folder.file.object.key`
    */
-  has(...args) {
-    let key;
-    let lang;
-
-    if (!args.length || !args[0]) {
-      return '';
-    }
-
-    if (!!~this.locales.indexOf(args[0])) {
-      lang = args[0];
-      key  = args[1];
-    } else {
-      lang = this.currentLocale.get() || this.defaultLocale || 'en';
-      key  = args[0];
-    }
-
-    if (lang) {
-      key = lang + '.' + key;
-      return !!(this.strings && this.strings[key] ? this.strings[key] : undefined);
-    }
-
-    return false;
-  }
+  // has(...args) {
+  //   let key;
+  //   let lang;
+  //
+  //   if (!args.length || !args[0]) {
+  //     return '';
+  //   }
+  //
+  //   if (!!~this.locales.indexOf(args[0])) {
+  //     lang = args[0];
+  //     key  = args[1];
+  //   } else {
+  //     lang = this.currentLocale.get() || this.defaultLocale || 'en';
+  //     key  = args[0];
+  //   }
+  //
+  //   if (lang) {
+  //     key = lang + '.' + key;
+  //     return !!(this.strings && this.strings[key] ? this.strings[key] : undefined);
+  //   }
+  //
+  //   return false;
+  // }
 
   /*
    * @locus Anywhere
@@ -237,19 +237,19 @@ export default class I18N {
    * @summary Set another locale
    * @param locale {String} - Two-letter locale string
    */
-  setLocale(locale) {
-    check(locale, String);
-
-    if (this.settings && this.settings[locale]) {
-      this.currentLocale.set(locale);
-      if (Meteor.isClient) {
-        ClientStorage.set('___i18n.locale___', locale);
-      }
-    } else {
-      throw new Meteor.Error(404, `No such locale: \"${locale}\"`);
-    }
-    return this;
-  }
+  // setLocale(locale) {
+  //   check(locale, String);
+  //
+  //   if (this.settings && this.settings[locale]) {
+  //     this.currentLocale.set(locale);
+  //     if (Meteor.isClient) {
+  //       ClientStorage.set('___i18n.locale___', locale);
+  //     }
+  //   } else {
+  //     throw new Meteor.Error(404, `No such locale: \"${locale}\"`);
+  //   }
+  //   return this;
+  // }
 
   /*
    * @locus Anywhere
@@ -258,13 +258,13 @@ export default class I18N {
    * @summary Get parsed data by key from i18n.json file
    * @param key {String} - One of the keys: 'current', 'all', 'other', 'locales'
    */
-  getSetting(key) {
-    check(key, Match.Optional(Match.OneOf('current', 'all', 'other', 'locales', 'currentISO', 'currentName')));
-    if (key) {
-      return this.langugeSet()[key] || undefined;
-    }
-    return this.langugeSet();
-  }
+  // getSetting(key) {
+  //   check(key, Match.Optional(Match.OneOf('current', 'all', 'other', 'locales', 'currentISO', 'currentName')));
+  //   if (key) {
+  //     return this.langugeSet()[key] || undefined;
+  //   }
+  //   return this.langugeSet();
+  // }
 
   /*
    * @locus Anywhere
@@ -272,42 +272,42 @@ export default class I18N {
    * @name langugeSet
    * @summary Get data from i18n config
    */
-  langugeSet() {
-    let key;
-    const locale  = this.currentLocale.get();
-    return {
-      current: locale,
-      currentISO: this.settings[locale].isoCode,
-      currentName: this.settings[locale].name,
-      all: (() => {
-        const result = [];
-        for (key in this.settings) {
-          if (_.isObject(this.settings[key])) {
-            result.push(this.settings[key]);
-          }
-        }
-        return result;
-      })(),
-      other: (() => {
-        const result = [];
-        for (key in this.settings) {
-          if (_.isObject(this.settings[key]) && (key !== locale)) {
-            result.push(this.settings[key]);
-          }
-        }
-        return result;
-      })(),
-      locales: (() => {
-        const result = [];
-        for (key in this.settings) {
-          if (_.isObject(this.settings[key])) {
-            result.push(this.settings[key].code);
-          }
-        }
-        return result;
-      })()
-    };
-  }
+  // langugeSet() {
+  //   let key;
+  //   const locale  = this.currentLocale.get();
+  //   return {
+  //     current: locale,
+  //     currentISO: this.settings[locale].isoCode,
+  //     currentName: this.settings[locale].name,
+  //     all: (() => {
+  //       const result = [];
+  //       for (key in this.settings) {
+  //         if (_.isObject(this.settings[key])) {
+  //           result.push(this.settings[key]);
+  //         }
+  //       }
+  //       return result;
+  //     })(),
+  //     other: (() => {
+  //       const result = [];
+  //       for (key in this.settings) {
+  //         if (_.isObject(this.settings[key]) && (key !== locale)) {
+  //           result.push(this.settings[key]);
+  //         }
+  //       }
+  //       return result;
+  //     })(),
+  //     locales: (() => {
+  //       const result = [];
+  //       for (key in this.settings) {
+  //         if (_.isObject(this.settings[key])) {
+  //           result.push(this.settings[key].code);
+  //         }
+  //       }
+  //       return result;
+  //     })()
+  //   };
+  // }
 
   /*
    * @locus Anywhere
